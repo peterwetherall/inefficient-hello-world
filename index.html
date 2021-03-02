@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<title>Inefficient Hello, World!</title>
+	<link rel="icon" href="https://peterwetherall.com/favicon.png">
+	<style>
+	* {
+		user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-webkit-user-select: none;
+		box-sizing: border-box;
+	}
+	html, body, #c {
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		padding: 0;
+		background: #111;
+		color: #FFF;
+		font-family: Verdana, sans-serif;
+		font-size: 2.5vw;
+	}
+	div {
+		width: fit-content;
+		height: fit-content;
+	}
+	#c {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	span {
+		padding: 0px 3px 0px 3px;
+	}
+	span.d {
+		color: #333;
+	}
+	.f span.d {
+		animation-name: fade;
+		animation-duration: 1s;
+		animation-fill-mode: forwards;
+	}
+	@keyframes fade {
+		0% { opacity: 1; }
+		100% { opacity: 0; }
+	}
+	.o-0 .i-7.d, .o-1 .i-4.d, .o-2 .i-11.d, .o-3 .i-11.d, .o-4 .i-14.d, .o-5 .i-22.d, .o-6 .i-14.d, .o-7 .i-17.d, .o-8 .i-11.d, .o-9 .i-3.d {
+		color: #0f0;
+		opacity: 1 !important;
+	}
+	#b {
+		text-align: center;
+		height: fit-content;
+		width: 100%;
+		float: left;
+		position: absolute;
+		left: 0;
+		font-size: 2vw;
+		top: calc(50% - 2.5vw);
+		opacity: 0.25;
+	}
+	</style>
+</head>
+<body>
+	<div id="c">
+		<div id="a"></div>
+	</div>
+	<div id="b">
+		<span id="time">00:00:00</span>
+		<br>
+		<span id="msg">Just start typing...</span>
+	</div>
+	<script>
+	let helloWorld = {};
+	helloWorld.msgs = [
+		"Quick, this program won't type itself",
+		"10% progress has been made",
+		"Come on, we haven't got all day",
+		"Déjà vu?",
+		"Khmer has 74 letters in the alphabet",
+		"Woah-oh we're half way there",
+		"How quickly can you execute the program?",
+		"~100 languages rely on the Latin alphabet",
+		"You're the one making this inefficient",
+		"The 'Time to hello world' is above",
+		""
+	];
+	helloWorld.line = 'abcdefghijklmnopqrstuvwxyz';
+	helloWorld.content = document.getElementById('a');
+	helloWorld.displayLine = '';
+	for (let i = 0; i < helloWorld.line.length; i++) {
+		helloWorld.displayLine += '<span class="i-' + i + '">' + helloWorld.line[i] + '</span>';
+	}
+	for (let i = 0; i < 10; i++) {
+		let edit = '<span class="o-' + i + '">';
+		edit += i > 9 ? helloWorld.displayLine : i == 4 ? helloWorld.displayLine + '<br><br><br>' : helloWorld.displayLine + '<br>';
+		edit += '</span>';
+		helloWorld.content.innerHTML += edit;
+	}
+	helloWorld.time = document.getElementById('time');
+	helloWorld.ms = -1;
+	helloWorld.startTimer = () => {
+		helloWorld.ms += 1;
+		helloWorld.time.innerHTML = ("0" + Math.floor(helloWorld.ms / 6000)).slice(-2) + ":" + ("0" + (Math.floor(helloWorld.ms / 100) % 60)).slice(-2) + ":" + ("0" + helloWorld.ms % 100).slice(-2);
+	};
+	helloWorld.cur = [0, 0];
+	helloWorld.active = true;
+	document.getElementsByTagName('body')[0].addEventListener('keydown', function (e) {
+		if (helloWorld.active) {
+			if (e.keyCode == helloWorld.line[helloWorld.cur[1]].toUpperCase().charCodeAt(0)) {
+				if (helloWorld.cur[0] == 0 && helloWorld.cur[1] == 0) {
+					document.getElementById("msg").innerHTML = helloWorld.msgs[helloWorld.cur[0]];
+					helloWorld.timer = setInterval(helloWorld.startTimer, 10);
+				}
+				document.querySelector('.o-' + helloWorld.cur[0] + ' .i-' + helloWorld.cur[1]).className += ' d';
+				helloWorld.cur[1]++;
+				if (helloWorld.cur[1] == 26) {
+					helloWorld.cur[0]++;
+					document.getElementById("msg").innerHTML = helloWorld.msgs[helloWorld.cur[0]];
+					helloWorld.cur[1] = 0;
+					if (helloWorld.cur[0] == 10) {
+						document.getElementById("b").style.top = "calc(50% - 0.5vw)";
+						helloWorld.active = false;
+						helloWorld.content.className = 'f';
+						clearInterval(helloWorld.timer);
+						setTimeout(() => {
+							document.querySelector(".o-0 .i-7.d").innerHTML = "H";
+							document.querySelector(".o-4 .i-14.d").innerHTML += ",";
+							document.querySelector(".o-5 .i-22.d").innerHTML = "W";
+							document.querySelector(".o-9 .i-3.d").innerHTML += "!";							
+						}, 1000);
+					}
+				}
+			}
+		}
+	});
+	</script>
+</body>
+</html>
